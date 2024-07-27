@@ -12,9 +12,9 @@ export interface UserPrefs {
 
 interface IAuthStore {
     session: Models.Session | null;
-    jwt: string | null
-    user: Models.User<UserPrefs> | null
-    hydrated: boolean
+    jwt: string | null;
+    user: Models.User<UserPrefs> | null;
+    hydrated: boolean;
 
     setHydrated(): void;
     verfiySession(): Promise<void>;
@@ -25,7 +25,8 @@ interface IAuthStore {
         {
             success: boolean;
             error?: AppwriteException | null
-        }>
+        }>;
+
     createAccount(
         name: string,
         email: string,
@@ -34,8 +35,9 @@ interface IAuthStore {
         {
             success: boolean;
             error?: AppwriteException | null
-        }>
-    logout(): Promise<void>
+        }>;
+
+    logout(): Promise<void>;
 }
 
 
@@ -97,7 +99,6 @@ export const useAuthStore = create<IAuthStore>()(
                     return {
                         success: false,
                         error: error instanceof AppwriteException ? error : null,
-
                     }
                 }
             },
