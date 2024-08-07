@@ -1,6 +1,5 @@
 "use client";
 
-
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -28,51 +27,45 @@ const LabelInputContainer = ({
     return <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>;
 };
 
-
-
-function RegisterPage() {
+export default function Register() {
     const { login, createAccount } = useAuthStore();
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState("");
 
-    const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // collect data
-        const formdata = new FormData(e.currentTarget);
-        const firstName = formdata.get('firstName');
-        const lastName = formdata.get('lastName');
-        const email = formdata.get('email');
-        const password = formdata.get('password');
+        const formData = new FormData(e.currentTarget);
+        const firstname = formData.get("firstname");
+        const lastname = formData.get("lastname");
+        const email = formData.get("email");
+        const password = formData.get("password");
 
-        // validate
-
-        if (!firstName || !lastName || !email || !password) {
-            setError(() => "Fill out All the fields");
+        if (!firstname || !lastname || !email || !password) {
+            setError(() => "Please fill out all fields");
             return;
         }
-        // call the store 
+
         setIsLoading(() => true);
-        setError("");
+        setError(() => "");
 
         const response = await createAccount(
-            `${firstName} ${lastName}`,
-            email?.toString(),
-            password?.toString()
-        )
+            `${firstname} ${lastname}`,
+            email.toString(),
+            password.toString()
+        );
 
         if (response.error) {
-            setError(() => response.error!?.message);
-        }
-        else {
-            const logInresponse = await login(email.toString(), password.toString());
-            if (logInresponse.error) {
-                setError(() => logInresponse.error!.message);
+            setError(() => response.error!.message);
+        } else {
+            const loginResponse = await login(email.toString(), password.toString());
+            if (loginResponse.error) {
+                setError(() => loginResponse.error!.message);
             }
         }
 
-        setIsLoading(() => false)
-    }
+        setIsLoading(() => false);
+    };
 
     return (
         <div className="mx-auto w-full max-w-md rounded-none border border-solid border-white/30 bg-white p-4 shadow-input dark:bg-black md:rounded-2xl md:p-8">
@@ -91,7 +84,7 @@ function RegisterPage() {
             {error && (
                 <p className="mt-8 text-center text-sm text-red-500 dark:text-red-400">{error}</p>
             )}
-            <form className="my-8" onSubmit={handleFormSubmission}>
+            <form className="my-8" onSubmit={handleSubmit}>
                 <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
                     <LabelInputContainer>
                         <Label htmlFor="firstname">First name</Label>
@@ -99,13 +92,13 @@ function RegisterPage() {
                     </LabelInputContainer>
                     <LabelInputContainer>
                         <Label htmlFor="lastname">Last name</Label>
-                        <Input className="text-black" id="lastname" name="lastname" placeholder="Durden" type="text" />
+                        <Input className="text-black"  id="lastname" name="lastname" placeholder="Durden" type="text" />
                     </LabelInputContainer>
                 </div>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="email">Email Address</Label>
                     <Input
-                        className="text-black"
+                    className="text-black" 
                         id="email"
                         name="email"
                         placeholder="projectmayhem@fc.com"
@@ -114,7 +107,7 @@ function RegisterPage() {
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="password">Password</Label>
-                    <Input className="text-black" id="password" name="password" placeholder="••••••••" type="password" />
+                    <Input className="text-black"  id="password" name="password" placeholder="••••••••" type="password" />
                 </LabelInputContainer>
 
                 <button
@@ -154,7 +147,5 @@ function RegisterPage() {
                 </div>
             </form>
         </div>
-    )
+    );
 }
-
-export default RegisterPage

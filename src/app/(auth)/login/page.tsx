@@ -54,7 +54,7 @@ function LoginPage() {
         // login in store 
 
         setIsLoading(() => true);
-        setError("");
+        setError( () => "");
 
         const logInresponse = await login(email.toString(), password.toString());
 
@@ -62,9 +62,10 @@ function LoginPage() {
             setError(() => logInresponse.error!.message);
 
         }
+
+        setIsLoading(() => false);
     }
 
-    setIsLoading(() => false);
     return (
         <div className="mx-auto w-full max-w-md rounded-none border border-solid border-white/30 bg-white p-4 shadow-input dark:bg-black md:rounded-2xl md:p-8">
         <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
@@ -86,7 +87,7 @@ function LoginPage() {
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
-                className="text-black"
+                className="text-white"
                     id="email"
                     name="email"
                     placeholder="projectmayhem@fc.com"
@@ -95,7 +96,7 @@ function LoginPage() {
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
-                <Input className="text-black" id="password" name="password" placeholder="••••••••" type="password" />
+                <Input className="text-white" id="password" name="password" placeholder="••••••••" type="password" />
             </LabelInputContainer>
 
             <button
